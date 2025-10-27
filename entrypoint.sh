@@ -41,7 +41,10 @@ repository_license() {
 }
 
 BUILD_CMD="nixpacks build $INPUT_CONTEXT"
-GHCR_IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY@L}"
+GHCR_IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY,,}"
+
+echo "Debug: BUILD_CMD=$BUILD_CMD"
+echo "Debug: GHCR_IMAGE_NAME=$GHCR_IMAGE_NAME"
 
 # add NIXPACKS_ prefixed environment variables to the build command
 # https://nixpacks.com/docs/configuration/environment
@@ -51,7 +54,7 @@ done
 
 # Incorporate provided input parameters from actions.yml into the Nixpacks build command
 if [ -n "${INPUT_TAGS}" ]; then
-  read -ra TAGS <<<"$(echo "$INPUT_TAGS" | tr ',\n' ' ')"
+  read -ra TAGS <<<"$(echo "$INPUT_TAGS" | tr ',\n' ' ' | tr '[:upper:]' '[:lower:]')"
 else
   # if not tags are provided, assume ghcr.io as the default registry
   echo "No tags provided. Defaulting to ghcr.io registry."
