@@ -41,7 +41,7 @@ repository_license() {
 }
 
 BUILD_CMD="nixpacks build $INPUT_CONTEXT"
-GHCR_IMAGE_NAME="ghcr.io/$GITHUB_REPOSITORY"
+GHCR_IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY@L}"
 
 # add NIXPACKS_ prefixed environment variables to the build command
 # https://nixpacks.com/docs/configuration/environment
